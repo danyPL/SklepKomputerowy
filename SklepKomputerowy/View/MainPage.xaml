@@ -22,8 +22,8 @@
                                 <Label Text="{Binding Kategoria, StringFormat='Kategoria {0}'}"/>
                                 <Label Text="{Binding Cena, StringFormat='Cena {0}zł'}"/>
                                 <Label Text="{Binding DostepnaIlosc, StringFormat='Dostepna ilosc w magazynie: {0}zł'}"/>
-                                        
-                                </VerticalStackLayout>
+                                
+                            </VerticalStackLayout>
                         </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

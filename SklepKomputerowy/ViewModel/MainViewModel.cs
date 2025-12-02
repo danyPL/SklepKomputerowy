@@ -12,7 +12,7 @@ namespace SklepKomputerowy.ViewModel
     class MainViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        public ObservableCollection<Computer> Computers { get; set; }
+        public ObservableCollection<Computer> Computers { get; set; } = [];
         public MainViewModel()
         {
             LoadMauiAsset();
@@ -23,23 +23,25 @@ namespace SklepKomputerowy.ViewModel
             using var stream = await FileSystem.OpenAppPackageFileAsync("data_store.txt");
             using var reader = new StreamReader(stream);
 
-            reader.ReadLine();
-            var contents = reader.ReadToEnd();
 
-            string[] rows = contents.Split("\n");
-            foreach (string row in rows)
+
+            string[] rows = reader.ReadToEnd().Split('\n');
+
+            for(int i =1; i < rows.Length; i++)
             {
+                var columns = rows[i].Split(";");
                 Computers.Add(new Computer()
                 {
-                    Id = row[0],
-                    Nazwa = row[1].ToString(),
-                    ObrazekSrc = row[2].ToString(),
-                    Cena = row[3],
-                    Kategoria = row[4].ToString(),
-                    DostepnaIlosc = row[5]
+                    Id = int.Parse(columns[0]),
+                    Nazwa = columns[1],
+                    ObrazekSrc = columns[2],
+                    Cena = double.Parse(columns[3]),
+                    Kategoria = columns[4],
+                    DostepnaIlosc = int.Parse(columns[5])
                 });
             }
         }
+
         public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
