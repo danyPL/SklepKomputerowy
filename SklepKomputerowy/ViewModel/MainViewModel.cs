@@ -28,14 +28,17 @@ namespace SklepKomputerowy.ViewModel
             using var stream = await FileSystem.OpenAppPackageFileAsync("data_store.txt");
             using var reader = new StreamReader(stream);
 
+            // pomijamy nagłówek
+            reader.ReadLine();
 
-
-            string[] rows = reader.ReadToEnd().Split('\n');
-
-            for(int i =1; i < rows.Length; i++)
+            string? line;
+            while ((line = reader.ReadLine()) != null)
             {
-                var columns = rows[i].Split(";");
-                Computers.Add(new Computer()
+                
+
+                var columns = line.Split(';');
+
+                Computers.Add(new Computer
                 {
                     Id = int.Parse(columns[0]),
                     Nazwa = columns[1],
@@ -46,10 +49,34 @@ namespace SklepKomputerowy.ViewModel
                     OryginalnaIlosc = int.Parse(columns[5])
                 });
             }
+            /* 2 sposób
+            using var stream = await FileSystem.OpenAppPackageFileAsync("data_store.txt");
+    using var reader = new StreamReader(stream);
+
+
+
+    string[] rows = reader.ReadToEnd().Split('\n');
+
+    for (int i = 1; i < rows.Length; i++)
+    {
+        var columns = rows[i].Split(";");
+        Computers.Add(new Computer()
+        {
+            Id = int.Parse(columns[0]),
+            Nazwa = columns[1],
+            ObrazekSrc = columns[2],
+            Cena = double.Parse(columns[3]),
+            Kategoria = columns[4],
+            DostepnaIlosc = int.Parse(columns[5]),
+            OryginalnaIlosc = int.Parse(columns[5])
+        });
+    }
+             */
         }
         private void DecreseAmount(Computer computer)
         {
-            computer.DostepnaIlosc--;
+            if(computer.DostepnaIlosc > 0)
+                computer.DostepnaIlosc--;
         }
         private void ResetAmount(Computer computer)
         {
