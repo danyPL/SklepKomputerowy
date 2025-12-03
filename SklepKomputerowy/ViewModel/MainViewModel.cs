@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace SklepKomputerowy.ViewModel
 {
@@ -13,9 +14,13 @@ namespace SklepKomputerowy.ViewModel
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public ObservableCollection<Computer> Computers { get; set; } = [];
+        public ICommand DecreseComputerAmountCmd { get; }
+        public ICommand ResetComputerAmountCmd { get; }
         public MainViewModel()
         {
             LoadMauiAsset();
+            DecreseComputerAmountCmd = new Command<Computer>(DecreseAmount);
+            ResetComputerAmountCmd = new Command<Computer>(ResetAmount);
 
         }
         async Task LoadMauiAsset()
@@ -37,11 +42,19 @@ namespace SklepKomputerowy.ViewModel
                     ObrazekSrc = columns[2],
                     Cena = double.Parse(columns[3]),
                     Kategoria = columns[4],
-                    DostepnaIlosc = int.Parse(columns[5])
+                    DostepnaIlosc = int.Parse(columns[5]),
+                    OryginalnaIlosc = int.Parse(columns[5])
                 });
             }
         }
-
+        private void DecreseAmount(Computer computer)
+        {
+            computer.DostepnaIlosc--;
+        }
+        private void ResetAmount(Computer computer)
+        {
+            computer.DostepnaIlosc = computer.OryginalnaIlosc;
+        }
         public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
