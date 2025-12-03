@@ -12,21 +12,41 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
+            <Label Text="Sklep Komputerowy" FontSize="Title" FontAttributes="Bold"/>
             <CollectionView ItemsSource="{Binding Computers}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <VerticalStackLayout>
-                            <Image Source="{Binding ObrazekSrc}"/>
-                            <Label HorizontalTextAlignment="Center" FontSize="Title" FontAttributes="Bold" Text="{Binding Nazwa}"/>
+                        <Border Padding="10"  Stroke="Black" StrokeShape="RoundRectangle 15">
                             <VerticalStackLayout>
-                                <Label Text="{Binding Kategoria, StringFormat='Kategoria {0}'}"/>
-                                <Label Text="{Binding Cena, StringFormat='Cena {0}zł'}"/>
-                                <Label Text="{Binding DostepnaIlosc, StringFormat='Dostepna ilosc w magazynie: {0}'}"/>
-                                <Button Text="Kup" Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainViewModel}}, Path=DecreseComputerAmountCmd}" CommandParameter="{Binding}"/>
-                                <Button Text="Reset" Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainViewModel}}, Path=ResetComputerAmountCmd}" CommandParameter="{Binding}"/>
+                                <Image Source="{Binding ObrazekSrc}"/>
+                                <Label HorizontalTextAlignment="Center" FontSize="Title" FontAttributes="Bold" Text="{Binding Nazwa}"/>
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="{Binding Kategoria, StringFormat='Kategoria: {0}'}"/>
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Cena: "/>
+                                                <Span Text="{Binding Cena,StringFormat='{0}zł'}" FontAttributes="Bold"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Dostępna ilość w magazynie: "/>
+                                                <Span Text="{Binding DostepnaIlosc,StringFormat='{0} sztuk'}" FontAttributes="Bold"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                                    <Button WidthRequest="150" Text="Kup" BackgroundColor="Green" Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainViewModel}}, Path=DecreseComputerAmountCmd}" CommandParameter="{Binding}"/>
+                                    <Button WidthRequest="150" Text="Reset" Background="HotPink" Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainViewModel}}, Path=ResetComputerAmountCmd}" CommandParameter="{Binding}"/>
+                                    </HorizontalStackLayout>
+                                   
+                                </VerticalStackLayout>
 
                             </VerticalStackLayout>
-                        </VerticalStackLayout>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
